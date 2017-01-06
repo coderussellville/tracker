@@ -9,6 +9,9 @@
   <link href="css/font-awesome.min.css" rel="stylesheet" />
 </head>
 <body>
+  <?php 
+    $siteTitle = "Family Tracker";
+  ?>
   <header id="top">
     <nav class="navbar navbar-default">
       <div class="container-fluid">
@@ -26,19 +29,19 @@
         <div class="collapse navbar-collapse navbar-right" id="main-navbar-collapse">
           <ul class="nav navbar-nav">
               <li>
-                <a href="#top" title="Family Tracker"><i class="fa fa-home"></i> Home</a>
+                <a href="#top" title="<?php echo $siteTitle ?>"><i class="fa fa-home"></i> Home</a>
               </li>
               <li>
-                <a href="#about" title="About Code Russellville Web Design"><i class="fa fa-user"></i> About</a>
+                <a href="#about" title="About <?php echo $siteTitle ?>"><i class="fa fa-user"></i> About</a>
               </li>
               <li>
-                <a href=#services title="Web design and development reporting databases training"><i class="fa fa-cogs"></i> Services</a>
+                <a href=#services title="<?php echo $siteTitle ?>"><i class="fa fa-cogs"></i> Services</a>
               </li>
               <li>
-                <a href="#portfolio" title="Code Russellville Web design and development examples"><i class="fa fa-file-code-o"></i> Portfolio</a>
+                <a href="#portfolio" title="<?php echo $siteTitle ?>"><i class="fa fa-file-code-o"></i> Portfolio</a>
               </li>
               <li>
-                <a href="#contact" title="Contact Code Russellville for your web design and development needs"><i class="fa fa-phone"></i> Contact</a>
+                <a href="#contact" title="Contact <?php echo $siteTitle ?>"><i class="fa fa-phone"></i> Contact</a>
               </li>
             </ul>
         </div><!-- /.navbar-collapse -->
