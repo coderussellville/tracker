@@ -2,7 +2,7 @@
       <div class="row">
         <div class="col-md-12">
           <footer>
-            <p>&copy; <?php echo date("Y"); ?> </p>
+            <p> <?php echo $siteTitle ?> &copy; <?php echo date("Y"); ?> </p>
           </footer>
         </div>
       </div>
