@@ -5,10 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Family Tracker</title>
   <!-- Add modernizer? -->
+  
+  <!-- CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet" />
   <link href="css/bootstrap-override.css" rel="stylesheet" />
   <link href="css/font-awesome.min.css" rel="stylesheet" />
   <link href="css/site.css" rel="stylesheet" />
+  
+  <!-- Scripts -->
+  <script src="js/jquery-2.2.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
   <?php 

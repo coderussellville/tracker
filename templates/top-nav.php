@@ -19,12 +19,14 @@
               <li>
                 <a href="#about" title="About <?php echo $siteTitle ?>"><i class="fa fa-user"></i> About</a>
               </li>
+              <!--
               <li>
                 <a href=#services title="<?php echo $siteTitle ?>"><i class="fa fa-cogs"></i> Services</a>
               </li>
               <li>
                 <a href="#portfolio" title="<?php echo $siteTitle ?>"><i class="fa fa-file-code-o"></i> Portfolio</a>
               </li>
+              -->
               <li>
                 <a href="#contact" title="Contact <?php echo $siteTitle ?>"><i class="fa fa-phone"></i> Contact</a>
               </li>

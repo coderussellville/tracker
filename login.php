@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
-        <form class="x-input-form">
+        <form id="frmLogin" class="x-input-form" method="post" action="">
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">Sign In</h3>
@@ -23,4 +23,19 @@
       </div>
     </div>
   </div>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      /*
+        Client-side validation - need to also add php server-side validation
+        
+        Validate --> All fields entered
+                 --> Email exists in system
+                 --> Password is valid
+      */
+      
+      $("#frmLogin").on("submit", function() {
+        // Validate - possibly call off to a web service to log user in
+      });
+    });
+  </script>
 <?php require 'templates/footer.php';?>
