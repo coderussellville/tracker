@@ -5,7 +5,7 @@
         <form class="x-input-form">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">Sign In</h3>
+              <h3 class="panel-title">Register</h3>
             </div>
             <div class="panel-body">
               <div class="form-group">
@@ -18,7 +18,10 @@
               </div>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+          <div class="addl-info">
+            By creating an account, you agree with the <a href="#" target="_blank">Terms and Conditions</a>.
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">Sign Up!</button>
         </form>
       </div>
     </div>
