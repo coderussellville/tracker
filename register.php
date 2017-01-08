@@ -34,7 +34,7 @@
           <div class="addl-info">
             By creating an account, you agree with the <a href="#" target="_blank">Terms and Conditions</a>.
           </div>
-          <button type="submit" class="btn btn-primary btn-lg btn-block">Sign Up!</button>
+          <button id="btnSignUp" type="button" class="btn btn-primary btn-lg btn-block">Sign Up!</button>
         </form>
       </div>
     </div>
@@ -50,7 +50,43 @@
                  --> Password and Confirm Password fields match
       */
       
-      $("#frmRegister").on("submit", function() {
+      //$("#frmRegister").on("submit", function() { 
+      $("#btnSignUp").click(function() {
+        
+        var errors = "";
+                
+        if ($("#inpFirstName").val() === "") { //check to make sure doesn't contain number?
+          errors = errors + "First Name is required.";
+        }
+        
+        if ($("#inpLastName").val() === "") {
+          errors = errors + "Last Name is required.";
+        }
+        
+        if ($("#inpUserEmail").val() === "") {
+          errors = errors + "Email is required.";
+        }
+        
+        if ($("#inpPassword").val() === "") {
+          errors = errors + "Password is required";
+        }
+        
+        //add check for password strength
+        
+        if ($("#inpPassword").val() !== $("#inpConfirmPassword").val()) {
+          errors = errors + "Password and Confirm Password must match exactly.";
+        }
+        
+        //call php function via AJAX, if successful, it will create the user and send them to the form action url, otherwise, it will display any errors. 
+        
+        $.ajax({
+          method: "POST",
+          url: "./services/register_user.php",
+          //data {} //pass registration data to function call
+        })
+        .done(function( msg ) {
+          alert( "Data Saved: " + msg ); // success message or possibly just automatically redirect user to next appropriate page
+        });
         
       });
     });
