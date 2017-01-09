@@ -11,6 +11,7 @@
   max-width: 400px;
 }
 
-.x-input-form .addl-info {
+.x-input-form .addl-info
+, .ft-error {
   margin-bottom: 15px;
 }

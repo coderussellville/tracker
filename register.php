@@ -10,31 +10,35 @@
             <div class="panel-body">
               <div class="form-group">
                 <label for="inpFirstName">First Name</label>
-                <!--<span class="text-danger">*</span>-->
-                <input type="text" class="form-control" id="inpFirstName" placeholder="First Name">
+                <span class="text-danger">*</span>
+                <input type="text" class="form-control" id="inpFirstName" name="firstName" placeholder="First Name" tabindex="1">
               </div>
               <div class="form-group">
                 <label for="inpLastName">Last Name</label>
-                <input type="text" class="form-control" id="inpLastName" placeholder="Last Name">
+                <span class="text-danger">*</span>
+                <input type="text" class="form-control" id="inpLastName" name="lastName" placeholder="Last Name" tabindex="2">
               </div>
               <div class="form-group">
                 <label for="inpUserEmail">Email address</label> <!-- Validate hasn't already been used -->
-                <input type="email" class="form-control" id="inpUserEmail" placeholder="Email">
+                <span class="text-danger">*</span>
+                <input type="email" class="form-control" id="inpUserEmail" name="userEmail" placeholder="Email" tabindex="3">
               </div>
               <div class="form-group">
                 <label for="inpPassword">Password</label>
-                <input type="password" class="form-control" id="inpPassword" placeholder="Password">
+                <span class="text-danger">*</span>
+                <input type="password" class="form-control" id="inpPassword" name="password" placeholder="Password" tabindex="4">
               </div>
               <div class="form-group">
                 <label for="inpConfirmPassword">Confirm Password</label>
-                <input type="password" class="form-control" id="inpConfirmPassword" placeholder="Confirm Password">
+                <span class="text-danger">*</span>
+                <input type="password" class="form-control" id="inpConfirmPassword" name="confirmPassword" placeholder="Confirm Password" tabindex="5">
               </div>
             </div>
           </div>
-          <div class="addl-info">
+          <div id="divAddlInfo" class="addl-info">
             By creating an account, you agree with the <a href="#" target="_blank">Terms and Conditions</a>.
           </div>
-          <button id="btnSignUp" type="button" class="btn btn-primary btn-lg btn-block">Sign Up!</button>
+          <button id="btnSignUp" type="button" class="btn btn-primary btn-lg btn-block" tabindex="6">Sign Up!</button>
         </form>
       </div>
     </div>
@@ -54,39 +58,59 @@
       $("#btnSignUp").click(function() {
         
         var errors = "";
+        $(".ft-error").empty();
                 
         if ($("#inpFirstName").val() === "") { //check to make sure doesn't contain number?
-          errors = errors + "First Name is required.";
+          errors = errors + "First Name is required.<br/>";
         }
         
         if ($("#inpLastName").val() === "") {
-          errors = errors + "Last Name is required.";
+          errors = errors + "Last Name is required.<br/>";
         }
         
         if ($("#inpUserEmail").val() === "") {
-          errors = errors + "Email is required.";
+          errors = errors + "Email is required.<br/>";
         }
         
         if ($("#inpPassword").val() === "") {
-          errors = errors + "Password is required";
+          errors = errors + "Password is required.<br/>";
         }
         
-        //add check for password strength
+        if ($("#inpConfirmPassword").val() === "") {
+          errors = errors + "Confirm Password is required.<br/>";
+        }
+        //add check for password length and strength
         
         if ($("#inpPassword").val() !== $("#inpConfirmPassword").val()) {
-          errors = errors + "Password and Confirm Password must match exactly.";
+          errors = errors + "Password and Confirm Password must match exactly.<br/>";
         }
         
-        //call php function via AJAX, if successful, it will create the user and send them to the form action url, otherwise, it will display any errors. 
-        
-        $.ajax({
-          method: "POST",
-          url: "./services/register_user.php",
-          //data {} //pass registration data to function call
-        })
-        .done(function( msg ) {
-          alert( "Data Saved: " + msg ); // success message or possibly just automatically redirect user to next appropriate page
-        });
+        if (errors === "") {
+          //call php function via AJAX, if successful, it will create the user and send them to the form action url, otherwise, it will display any errors. 
+          $.ajax({
+            method: "POST",
+            url: "./services/register_user.php",
+            data: { first_name: $("#inpFirstName").val()
+                  , last_name: $("#inpLastName").val()
+                  , email: $("#inpUserEmail").val()
+                  , password: $("#inpPassword").val()
+                  , confirm_password: $("#inpConfirmPassword").val()
+                  }
+          })
+          .done(function(data) {
+            if (data !== "") { // maybe change to data not contains certain value
+              $("#divAddlInfo").after(data);
+            }
+            // success message or possibly just automatically redirect user to next appropriate page
+          })
+          .fail(function (jqXHR, textStatus) {
+            //console.log("Error!" + textStatus);
+          });
+        }
+        else {
+          console.log("Client-side");
+          $("#divAddlInfo").after("<div class='bg-danger ft-error'>" + errors + "</div>");
+        }
         
       });
     });
