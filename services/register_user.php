@@ -8,8 +8,6 @@
        --> Take them to the next page (also send them a welcome email, etc.)
   */
   
-  require '../db/connect.php';
-  
   //$return = array();
   //$return['success'] = False; // will return False until code reaches end
   
@@ -29,6 +27,7 @@
   }
   
   //add check to see if email already in use
+  //add check for password length and strength
   
   if (!isset($_POST['password']) || $_POST['password'] === "") {
     $errors = $errors . "Password is required.<br/>";

@@ -11,34 +11,34 @@
               <div class="form-group">
                 <label for="inpFirstName">First Name</label>
                 <span class="text-danger">*</span>
-                <input type="text" class="form-control" id="inpFirstName" name="firstName" placeholder="First Name" tabindex="1">
+                <input type="text" class="form-control required" id="inpFirstName" name="firstName" placeholder="First Name" tabindex="1">
               </div>
               <div class="form-group">
                 <label for="inpLastName">Last Name</label>
                 <span class="text-danger">*</span>
-                <input type="text" class="form-control" id="inpLastName" name="lastName" placeholder="Last Name" tabindex="2">
+                <input type="text" class="form-control required" id="inpLastName" name="lastName" placeholder="Last Name" tabindex="2">
               </div>
               <div class="form-group">
                 <label for="inpUserEmail">Email address</label> <!-- Validate hasn't already been used -->
                 <span class="text-danger">*</span>
-                <input type="email" class="form-control" id="inpUserEmail" name="userEmail" placeholder="Email" tabindex="3">
+                <input type="email" class="form-control required" id="inpUserEmail" name="userEmail" placeholder="Email" tabindex="3">
               </div>
               <div class="form-group">
                 <label for="inpPassword">Password</label>
                 <span class="text-danger">*</span>
-                <input type="password" class="form-control" id="inpPassword" name="password" placeholder="Password" tabindex="4">
+                <input type="password" class="form-control required" id="inpPassword" name="password" placeholder="Password" tabindex="4">
               </div>
               <div class="form-group">
                 <label for="inpConfirmPassword">Confirm Password</label>
                 <span class="text-danger">*</span>
-                <input type="password" class="form-control" id="inpConfirmPassword" name="confirmPassword" placeholder="Confirm Password" tabindex="5">
+                <input type="password" class="form-control required" id="inpConfirmPassword" name="confirmPassword" placeholder="Confirm Password" tabindex="5">
               </div>
             </div>
           </div>
           <div id="divAddlInfo" class="addl-info">
             By creating an account, you agree with the <a href="#" target="_blank">Terms and Conditions</a>.
           </div>
-          <button id="btnSignUp" type="button" class="btn btn-primary btn-lg btn-block" tabindex="6">Sign Up!</button>
+          <button id="btnSignUp" type="button" class="btn btn-primary btn-lg btn-block require-check" tabindex="6">Sign Up!</button>
         </form>
       </div>
     </div>
@@ -57,35 +57,37 @@
       //$("#frmRegister").on("submit", function() { 
       $("#btnSignUp").click(function() {
         
-        var errors = "";
-        $(".ft-error").empty();
-                
-        if ($("#inpFirstName").val() === "") { //check to make sure doesn't contain number?
-          errors = errors + "First Name is required.<br/>";
-        }
+       //var errors = "";
+       //$(".ft-error").empty();
+       //        
+       //if ($("#inpFirstName").val() === "") { //check to make sure doesn't contain number?
+       //  errors = errors + "First Name is required.<br/>";
+       //}
+       //
+       //if ($("#inpLastName").val() === "") {
+       //  errors = errors + "Last Name is required.<br/>";
+       //}
+       //
+       //if ($("#inpUserEmail").val() === "") {
+       //  errors = errors + "Email is required.<br/>";
+       //}
+       //
+       //if ($("#inpPassword").val() === "") {
+       //  errors = errors + "Password is required.<br/>";
+       //}
+       //
+       //if ($("#inpConfirmPassword").val() === "") {
+       //  errors = errors + "Confirm Password is required.<br/>";
+       //}
+       ////add check for password length and strength
+       //
+       //if ($("#inpPassword").val() !== $("#inpConfirmPassword").val()) {
+       //  errors = errors + "Password and Confirm Password must match exactly.<br/>";
+       //}
         
-        if ($("#inpLastName").val() === "") {
-          errors = errors + "Last Name is required.<br/>";
-        }
+        console.log($(".ft-error")); //not sure if I can ensure this logic gets called after other javascript unless I make it into a function
         
-        if ($("#inpUserEmail").val() === "") {
-          errors = errors + "Email is required.<br/>";
-        }
-        
-        if ($("#inpPassword").val() === "") {
-          errors = errors + "Password is required.<br/>";
-        }
-        
-        if ($("#inpConfirmPassword").val() === "") {
-          errors = errors + "Confirm Password is required.<br/>";
-        }
-        //add check for password length and strength
-        
-        if ($("#inpPassword").val() !== $("#inpConfirmPassword").val()) {
-          errors = errors + "Password and Confirm Password must match exactly.<br/>";
-        }
-        
-        if (errors === "") {
+        if ($(".ft-error") === undefined) { //is this the correct check?
           //call php function via AJAX, if successful, it will create the user and send them to the form action url, otherwise, it will display any errors. 
           $.ajax({
             method: "POST",
@@ -104,12 +106,11 @@
             // success message or possibly just automatically redirect user to next appropriate page
           })
           .fail(function (jqXHR, textStatus) {
-            //console.log("Error!" + textStatus);
+            $("#divAddlInfo").after("<div class='bg-danger ft-error'>An unexpected error occurred: " + textStatus + "</div>");
           });
         }
-        else {
-          console.log("Client-side");
-          $("#divAddlInfo").after("<div class='bg-danger ft-error'>" + errors + "</div>");
+        else { console.log("Errors.");
+        //  $("#divAddlInfo").after("<div class='bg-danger ft-error'>" + errors + "</div>");
         }
         
       });

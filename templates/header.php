@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Family Tracker</title>
-  <!-- Add modernizer? -->
+  <!-- Add modernizer, etc.? -->
   
   <!-- CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet" />
@@ -15,10 +15,12 @@
   <!-- Scripts -->
   <script src="js/jquery-2.2.1.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
+  <script src="js/site.js"></script>
 </head>
 <body>
   <?php 
     $siteTitle = "Family Tracker";
+    require './db/connect.php';
   ?>
   <noscript>
     You must have JavaScript enabled in order to use this site. For more details, check your browser's documentation...
