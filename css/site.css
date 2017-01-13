@@ -16,6 +16,10 @@
   margin-bottom: 15px;
 }
 
+.ft-error {
+  padding: 15px;
+}
+
 .input-error {
   border: 2px solid #fb4f4f;
 }

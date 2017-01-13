@@ -11,27 +11,27 @@
               <div class="form-group">
                 <label for="inpFirstName">First Name</label>
                 <span class="text-danger">*</span>
-                <input type="text" class="form-control required" id="inpFirstName" name="firstName" placeholder="First Name" tabindex="1">
+                <input type="text" class="form-control required" id="inpFirstName" name="firstName" placeholder="First Name" tabindex="1" maxlength="75">
               </div>
               <div class="form-group">
                 <label for="inpLastName">Last Name</label>
                 <span class="text-danger">*</span>
-                <input type="text" class="form-control required" id="inpLastName" name="lastName" placeholder="Last Name" tabindex="2">
+                <input type="text" class="form-control required" id="inpLastName" name="lastName" placeholder="Last Name" tabindex="2" maxlength="75">
               </div>
               <div class="form-group">
                 <label for="inpUserEmail">Email address</label> <!-- Validate hasn't already been used -->
                 <span class="text-danger">*</span>
-                <input type="email" class="form-control required" id="inpUserEmail" name="userEmail" placeholder="Email" tabindex="3">
+                <input type="email" class="form-control required" id="inpUserEmail" name="userEmail" placeholder="Email" tabindex="3" maxlength="128">
               </div>
               <div class="form-group">
                 <label for="inpPassword">Password</label>
                 <span class="text-danger">*</span>
-                <input type="password" class="form-control required" id="inpPassword" name="password" placeholder="Password" tabindex="4">
+                <input type="password" class="form-control required" id="inpPassword" name="password" placeholder="Password" tabindex="4" maxlength="128">
               </div>
               <div class="form-group">
                 <label for="inpConfirmPassword">Confirm Password</label>
                 <span class="text-danger">*</span>
-                <input type="password" class="form-control required" id="inpConfirmPassword" name="confirmPassword" placeholder="Confirm Password" tabindex="5">
+                <input type="password" class="form-control required" id="inpConfirmPassword" name="confirmPassword" placeholder="Confirm Password" tabindex="5" maxlength="128">
               </div>
             </div>
           </div>
@@ -48,46 +48,35 @@
       /*
         Client-side validation - need to also add php server-side validation
         
-        Validate --> All fields entered
+        Validate --> Fields don't have any html or javascript in them, or strip tags...figure out if there is a best practice in php or jquery to handle this
+                 --> Accessible
+                 --> Check all aspects of security to make sure the obvious attacks are prevented
                  --> Email address is valid and hasn't been used already by another user
-                 --> Password meets certain minimum requirements
-                 --> Password and Confirm Password fields match
+                 --> Add password hint in UI
       */
       
       //$("#frmRegister").on("submit", function() { 
       $("#btnSignUp").click(function() {
         
-       //var errors = "";
-       //$(".ft-error").empty();
-       //        
-       //if ($("#inpFirstName").val() === "") { //check to make sure doesn't contain number?
-       //  errors = errors + "First Name is required.<br/>";
-       //}
-       //
-       //if ($("#inpLastName").val() === "") {
-       //  errors = errors + "Last Name is required.<br/>";
-       //}
-       //
-       //if ($("#inpUserEmail").val() === "") {
-       //  errors = errors + "Email is required.<br/>";
-       //}
-       //
-       //if ($("#inpPassword").val() === "") {
-       //  errors = errors + "Password is required.<br/>";
-       //}
-       //
-       //if ($("#inpConfirmPassword").val() === "") {
-       //  errors = errors + "Confirm Password is required.<br/>";
-       //}
-       ////add check for password length and strength
-       //
-       //if ($("#inpPassword").val() !== $("#inpConfirmPassword").val()) {
-       //  errors = errors + "Password and Confirm Password must match exactly.<br/>";
-       //}
+        var errors = validateInput();
+        var passResult = validatePassword($("#inpPassword").val());
         
-        console.log($(".ft-error")); //not sure if I can ensure this logic gets called after other javascript unless I make it into a function
+        // ADD ALL CHECKS TO PHP CODE ALSO
+        if (passResult !== "pass") {
+          errors = errors + passResult + "<br/>";
+        }
         
-        if ($(".ft-error") === undefined) { //is this the correct check?
+        if ($("#inpPassword").val() !== $("#inpConfirmPassword").val()) {
+          errors = errors + "Password and Confirm Password must match exactly.<br/>";
+          $("#inpPassword").addClass("input-error");
+          $("#inpConfirmPassword").addClass("input-error");
+        }
+        else {
+          $("#inpPassword").removeClass("input-error");
+          $("#inpConfirmPassword").removeClass("input-error");
+        }
+        
+        if (errors === "") { //is this the correct check?
           //call php function via AJAX, if successful, it will create the user and send them to the form action url, otherwise, it will display any errors. 
           $.ajax({
             method: "POST",
@@ -106,14 +95,36 @@
             // success message or possibly just automatically redirect user to next appropriate page
           })
           .fail(function (jqXHR, textStatus) {
-            $("#divAddlInfo").after("<div class='bg-danger ft-error'>An unexpected error occurred: " + textStatus + "</div>");
+            $(this).befores("<div class='bg-danger ft-error'>An unexpected error occurred: " + textStatus + "</div>");
           });
         }
         else { console.log("Errors.");
-        //  $("#divAddlInfo").after("<div class='bg-danger ft-error'>" + errors + "</div>");
+          $(this).before("<div class='bg-danger ft-error'>" + errors + "</div>");
         }
         
       });
     });
+    
+    function validatePassword(password) {
+      if (password.length < 8) {
+        return("Password must be at least 8 characters.");
+      } 
+      else if (password.length > 30) {
+        return("Password cannot exceed 30 characters");
+      } 
+      else if (password.search(/\d/) == -1) {
+        return("Password must contain at least one number.");
+      }
+      else if (password.search(/[a-z]/) == -1) {
+        return("Password must contain at least one lowercase letter.");
+      } 
+      else if (password.search(/[A-Z]/) == -1) {
+        return("Password must contain at least one uppercase letter.");
+      } 
+      else if (password.search(/[!@#\$%\&\(\)\_\+]/) == -1) { //!, @, #, $, %, &, (, )
+        return("Password must contain one of the following: !, @, #, $, %, &, (, )");
+      }
+      return("pass");
+    }
   </script>
 <?php require 'templates/footer.php';?>

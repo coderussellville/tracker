@@ -29,3 +29,4 @@
     <?php require 'templates/top-nav.php';?> <!-- Put in IF statement to display if logged in only -->
   </header>
   <main>
+    <div id="errorDisplay"></div>
