@@ -20,7 +20,6 @@
 <body>
   <?php 
     $siteTitle = "Family Tracker";
-    require './db/connect.php';
   ?>
   <noscript>
     You must have JavaScript enabled in order to use this site. For more details, check your browser's documentation...

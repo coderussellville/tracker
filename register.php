@@ -44,39 +44,71 @@
     </div>
   </div>
   <script type="text/javascript">
+    //$(document).ready(function() {
+    //  $("#btnSignUp").click(function() {
+    //    $(".ft-error").empty().hide();
+    //  $.ajax({
+    //        method: "POST",
+    //        url: "./services/register_user.php",
+    //        data: { first_name: $("#inpFirstName").val()
+    //              , last_name: $("#inpLastName").val()
+    //              , email: $("#inpUserEmail").val()
+    //              , password: $("#inpPassword").val()
+    //              , confirm_password: $("#inpConfirmPassword").val()
+    //              }
+    //      })
+    //      .done(function(data) {
+    //        if (data !== "") { // maybe change to data not contains certain value
+    //          //$("#divAddlInfo").after(data);
+    //          //console.log(data);
+    //          $("#btnSignUp").before(data);
+    //        }
+    //        // success message or possibly just automatically redirect user to next appropriate page
+    //      })
+    //      .fail(function (jqXHR, textStatus) {
+    //        $(this).before("<div class='bg-danger ft-error'>An unexpected error occurred: " + textStatus + "</div>");
+    //      });
+    //  });
+    //});
+    
+    
+    
     $(document).ready(function () {
       /*
         Client-side validation - need to also add php server-side validation
         
         Validate --> Fields don't have any html or javascript in them, or strip tags...figure out if there is a best practice in php or jquery to handle this
                  --> Accessible
-                 --> Check all aspects of security to make sure the obvious attacks are prevented
+                 --> Check all aspects of security to make sure the obvious attacks are prevented (need to add AJAX call security, etc.)
                  --> Email address is valid and hasn't been used already by another user
                  --> Add password hint in UI
+                 --> Add validation on server-side as well
       */
       
-      //$("#frmRegister").on("submit", function() { 
       $("#btnSignUp").click(function() {
         
         var errors = validateInput();
-        var passResult = validatePassword($("#inpPassword").val());
         
-        // ADD ALL CHECKS TO PHP CODE ALSO
+        //validate email address - regex probably
+        //add CAPTCHA, or similar?
+        
+        var passResult = validatePassword($("#inpPassword").val());
+        console.log("Pass Result: " + passResult);
+        
         if (passResult !== "pass") {
           errors = errors + passResult + "<br/>";
         }
-        
-        if ($("#inpPassword").val() !== $("#inpConfirmPassword").val()) {
-          errors = errors + "Password and Confirm Password must match exactly.<br/>";
-          $("#inpPassword").addClass("input-error");
-          $("#inpConfirmPassword").addClass("input-error");
-        }
         else {
-          $("#inpPassword").removeClass("input-error");
-          $("#inpConfirmPassword").removeClass("input-error");
+          if ($("#inpPassword").val() !== $("#inpConfirmPassword").val()) {
+            errors = errors + "Password and Confirm Password must match exactly.<br/>";
+            $("#inpPassword, #inpConfirmPassword").addClass("input-error");
+          }
+          else {
+            $("#inpPassword, #inpConfirmPassword").removeClass("input-error");
+          }
         }
         
-        if (errors === "") { //is this the correct check?
+        if (errors === "") {
           //call php function via AJAX, if successful, it will create the user and send them to the form action url, otherwise, it will display any errors. 
           $.ajax({
             method: "POST",
@@ -90,41 +122,21 @@
           })
           .done(function(data) {
             if (data !== "") { // maybe change to data not contains certain value
-              $("#divAddlInfo").after(data);
+              $("#btnSignUp").before(data);
             }
-            // success message or possibly just automatically redirect user to next appropriate page
           })
           .fail(function (jqXHR, textStatus) {
-            $(this).befores("<div class='bg-danger ft-error'>An unexpected error occurred: " + textStatus + "</div>");
+            $("#btnSignUp").before("<div class='bg-danger ft-error'>An unexpected error occurred: " + textStatus + "</div>");
           });
         }
-        else { console.log("Errors.");
+        else {
           $(this).before("<div class='bg-danger ft-error'>" + errors + "</div>");
         }
         
       });
     });
     
-    function validatePassword(password) {
-      if (password.length < 8) {
-        return("Password must be at least 8 characters.");
-      } 
-      else if (password.length > 30) {
-        return("Password cannot exceed 30 characters");
-      } 
-      else if (password.search(/\d/) == -1) {
-        return("Password must contain at least one number.");
-      }
-      else if (password.search(/[a-z]/) == -1) {
-        return("Password must contain at least one lowercase letter.");
-      } 
-      else if (password.search(/[A-Z]/) == -1) {
-        return("Password must contain at least one uppercase letter.");
-      } 
-      else if (password.search(/[!@#\$%\&\(\)\_\+]/) == -1) { //!, @, #, $, %, &, (, )
-        return("Password must contain one of the following: !, @, #, $, %, &, (, )");
-      }
-      return("pass");
-    }
   </script>
 <?php require 'templates/footer.php';?>
+
+

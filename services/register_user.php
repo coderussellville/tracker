@@ -11,53 +11,75 @@
   //$return = array();
   //$return['success'] = False; // will return False until code reaches end
   
+  // Validate input to make sure input is not malicious
+  // Hide content if JavaScript is not enabled in browser?
+  
+  require '../classes/email.php';
+  require '../db/connect.php'; // need to handle this differently
+  
   $errors = "";
   
-  if (!isset($_POST['first_name']) || $_POST['first_name'] === "") {
-    //echo "Hello"; exit();
+  $firstName = $_POST['first_name'] ?? "";
+  $lastName = $_POST['last_name'] ?? "";
+  $email = $_POST['email'] ?? "";
+  $password = $_POST['password'] ?? "";
+  $confirmPassword = $_POST['confirm_password'] ?? "";
+  
+  if ($firstName === "") {
     $errors = $errors . "First Name is required.<br/>";
   }
   
-  if (!isset($_POST['last_name']) || $_POST['last_name'] === "") {
+  if ($lastName === "") {
     $errors = $errors . "Last Name is required.<br/>";
   }
   
-  if (!isset($_POST['email']) || $_POST['email'] === "") {
-    $errors = $errors . "Email is required.<br/>";
+  $emailObj = new Email();
+  
+  $emailResult = $emailObj->validateEmail($email);
+  if ($emailResult !== "") {
+    $errors = $errors . $emailResult . "<br/>";
   }
   
-  //add check to see if email already in use
-  //add check for password length and strength
+  //$emailObj->emailExists = $emailObj->doesEmailExist($email, $connection);
+  //if ($emailObj->emailExists) {
+  if ($emailObj->doesEmailExist($email, $connection)) {
+    $errors = $errors . "Email address is already in use. Please choose another email to use for signing up.<br/>";
+  }
   
-  if (!isset($_POST['password']) || $_POST['password'] === "") {
+  if ($password === "") {
     $errors = $errors . "Password is required.<br/>";
   }
   
-  if (!isset($_POST['confirm_password']) || $_POST['confirm_password'] === "") {
+  if ($confirmPassword === "") {
     $errors = $errors . "Confirm Password is required.<br/>";
   }
   
-  if ($_POST['password'] !== $_POST['confirm_password']) {
+  if ($password !== $confirmPassword) {
     $errors = $errors . "Password and Confirm Password must match exactly.<br/>";
   }
   
-  if ($errors !== "") {
-    echo "<div class='bg-danger ft-error'>$errors</div>";
-    exit();
+  $passResult = validatePassword($password);
+  
+  if ($passResult !== "pass") {
+     $errors = $errors . $passResult . "<br/>";
   }
   
-  $firstName = $_POST['first_name'];
-  $lastName = $_POST['last_name'];
-  $userEmail = $_POST['email'];
-  $userPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
+  if ($errors !== "") {
+    echo "<div class='bg-danger ft-error'>$errors</div>"; //may need to remove div and put somewhere else, just pass back errors
+    exit();
+  }
+
+  $userPassword = password_hash($password, PASSWORD_DEFAULT);
   
   //$deleteUser = "";
   //$deleteObj = 
   
+  //send email to user to verify email address with code? must first validate email address before loggin in first time.
+  
   $insertUser = "INSERT INTO family_tracker.user (first_name, last_name, email, password) VALUES (?, ?, ?, ?);"; // change this to call stored proc most likely
   $insertObj = $connection -> prepare($insertUser);
   
-  $insertObj -> bind_param("ssss", $firstName, $lastName, $userEmail, $userPassword);
+  $insertObj -> bind_param("ssss", $firstName, $lastName, $email, $userPassword);
   $insertObj -> execute();
   
   // echo "UserID: " . $connection -> insert_id;
@@ -79,4 +101,29 @@
   
   $resultObj -> close();
   */
+  
+  function validatePassword($password) {
+    $passLength = strlen($password);
+    
+    if ($passLength < 8) {
+      return("Password must be at least 8 characters.");
+    } 
+    else if ($passLength > 30) {
+      return("Password cannot exceed 30 characters");
+    } 
+    else if (!preg_match("/\d/", $password, $match)) {
+      return("Password must contain at least one number.");
+    }
+    else if (!preg_match("/[a-z]/", $password, $match)) {
+      return("Password must contain at least one lowercase letter.");
+    } 
+    else if (!preg_match("/[A-Z]/", $password, $match)) {
+      return("Password must contain at least one uppercase letter.");
+    } 
+    else if (!preg_match("/[!@#\$%\&\(\)\_\+]/", $password, $match)) { //!, @, #, $, %, &, (, )
+      return("Password must contain one of the following: !, @, #, $, %, &, (, )");
+    }
+    
+    return("pass");
+  }
 ?>

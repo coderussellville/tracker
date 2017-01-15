@@ -2,7 +2,6 @@ $(document).ready(function () {
   
 });
 
-//$(document).on("click", ".require-check", function() {
 function validateInput() {
   console.log("Checking required fields...");
   var errors = "";
@@ -38,4 +37,25 @@ function validateInput() {
   
   return errors;
 }
-//});
+
+function validatePassword(password) {
+  if (password.length < 8) {
+    return("Password must be at least 8 characters.");
+  } 
+  else if (password.length > 30) {
+    return("Password cannot exceed 30 characters");
+  } 
+  else if (password.search(/\d/) == -1) {
+    return("Password must contain at least one number.");
+  }
+  else if (password.search(/[a-z]/) == -1) {
+    return("Password must contain at least one lowercase letter.");
+  } 
+  else if (password.search(/[A-Z]/) == -1) {
+    return("Password must contain at least one uppercase letter.");
+  } 
+  else if (password.search(/[!@#\$%\&\(\)\_\+]/) == -1) { //!, @, #, $, %, &, (, )
+    return("Password must contain one of the following: !, @, #, $, %, &, (, )");
+  }
+  return("pass");
+}
