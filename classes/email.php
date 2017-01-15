@@ -17,7 +17,10 @@
       if ($emailAddr === "") {
         return "Email is required.";
       }
-      else if (!filter_var($emailAddr, FILTER_VALIDATE_EMAIL)) {
+      
+      $emailAddr = filter_var($emailAddr, FILTER_SANITIZE_EMAIL);
+      
+      if (!filter_var($emailAddr, FILTER_VALIDATE_EMAIL)) {
         return "Please enter valid email address (Ex. user@email.com).";
       }
       else {

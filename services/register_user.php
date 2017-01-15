@@ -19,11 +19,11 @@
   
   $errors = "";
   
-  $firstName = $_POST['first_name'] ?? "";
-  $lastName = $_POST['last_name'] ?? "";
-  $email = $_POST['email'] ?? "";
-  $password = $_POST['password'] ?? "";
-  $confirmPassword = $_POST['confirm_password'] ?? "";
+  $firstName = strip_tags($_POST['first_name']) ?? "";
+  $lastName = strip_tags($_POST['last_name']) ?? "";
+  $email = strip_tags($_POST['email']) ?? "";
+  $password = strip_tags($_POST['password']) ?? "";
+  $confirmPassword = strip_tags($_POST['confirm_password']) ?? "";
   
   if ($firstName === "") {
     $errors = $errors . "First Name is required.<br/>";
@@ -65,6 +65,7 @@
   }
   
   if ($errors !== "") {
+    //echo strip_tags("Out <script>function test() {}</script>");
     echo "<div class='bg-danger ft-error'>$errors</div>"; //may need to remove div and put somewhere else, just pass back errors
     exit();
   }

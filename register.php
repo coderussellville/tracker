@@ -92,8 +92,12 @@
         //validate email address - regex probably
         //add CAPTCHA, or similar?
         
+        var emailResult = validateEmailAddress($("#inpUserEmail").val());
+        if (emailResult !== "pass") {
+          errors = errors + emailResult + "<br/>";
+        }
+        
         var passResult = validatePassword($("#inpPassword").val());
-        console.log("Pass Result: " + passResult);
         
         if (passResult !== "pass") {
           errors = errors + passResult + "<br/>";

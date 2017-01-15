@@ -5,7 +5,7 @@
         <form id="frmLogin" class="x-input-form" method="post" action="">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">Sign In</h3>
+              <h3 class="panel-title">Enter your account information to log in</h3>
             </div>
             <div class="panel-body">
               <div class="form-group">
@@ -18,7 +18,12 @@
               </div>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">Log In</button>
+          <div id="divAddlInfo" class="addl-info">
+            <br/>
+            <p>If you do not have an account, <a href="register.php" >Register</a> today.</p>
+            <p><a href="#">Forgot Account information?</a></p>
+          </div>
         </form>
       </div>
     </div>
