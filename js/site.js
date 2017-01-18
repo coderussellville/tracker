@@ -52,7 +52,7 @@ function validatePassword(password) {
   else if (password.search(/[!@#\$%\&\(\)\_\+]/) == -1) { //!, @, #, $, %, &, (, )
     return "Password must contain one of the following: !, @, #, $, %, &, (, )";
   }
-  return "pass";
+  return "";
 }
 
 function validateEmailAddress(email) {
@@ -62,7 +62,7 @@ function validateEmailAddress(email) {
     return "Please enter a valid email address.";
   }
   
-  return "pass";
+  return "";
 }
 
 //function 

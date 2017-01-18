@@ -4,14 +4,7 @@
   
   class Email {
     
-    //private $isValid = false;
-    //public $emailExists;
-    //private $_connection = "";
-    
-    function __construct() {
-      //$_connection = $connection;
-    //  $emailExists = false;
-    }
+    function __construct() { }
     
     public function validateEmail($emailAddr) {
       if ($emailAddr === "") {
@@ -40,7 +33,6 @@
         
         if ($selectObj->num_rows > 0) {
           $emailExists = true;
-          //$this->emailExists = true;
         }
         
         $selectObj->close(); //close connection also?

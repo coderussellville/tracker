@@ -120,7 +120,7 @@
     } 
     else if (!preg_match("/[A-Z]/", $password, $match)) {
       return("Password must contain at least one uppercase letter.");
-    } 
+    } //possibly remove special character requirement
     else if (!preg_match("/[!@#\$%\&\(\)\_\+]/", $password, $match)) { //!, @, #, $, %, &, (, )
       return("Password must contain one of the following: !, @, #, $, %, &, (, )");
     }
