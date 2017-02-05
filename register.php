@@ -1,5 +1,5 @@
 <?php require 'templates/header.php';?>
-  <div class="container-fluid">
+  <div class="container">
     <div class="row">
       <div class="col-md-12">
         <form id="frmRegister" class="x-input-form" method="post" action="">

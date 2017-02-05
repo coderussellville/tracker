@@ -23,3 +23,17 @@
 .input-error {
   border: 2px solid #fb4f4f;
 }
+
+footer {
+  background-color: #464C51;
+  color: #fff;
+  min-height: 50px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-top: 20px;
+  /*
+  padding-top: 15px;
+  
+  
+  */
+}
